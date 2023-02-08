@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+
+    x:Class="LanguageNotes.Pages.NewCardPage"
+    Title="New Flashcard">
+
+    <!-- Start Content -->
+
+    <StackLayout BindingContext="{Binding NoteCard}"
+                 Margin="20, 20, 20, 20">
+
+        <FlexLayout JustifyContent="SpaceAround">
+            <Picker x:Name="category_picker"
+                    Title="Select Category">
+            </Picker>
+
+            <Picker Title="Select Group">
+
+
+            </Picker>
+        </FlexLayout>
+            
+
+        <!-- Front Text -->
+        <Frame BorderColor="Gray">
+            <StackLayout>
+                <Label Text="Front Text"
+                       FontSize="Small"
+                       FontAttributes="Bold"/>
+                <Entry BindingContext="{Binding FrontText}"/>
+            </StackLayout>
+        </Frame>
+
+        <!-- Back Text/Translations -->
+        <Frame BorderColor="Gray">
+            <StackLayout>
+                <Label Text="Translation"/>
+                <Entry BindingContext="{Binding Translation}"/>
+                <Label Text="Alternate Translations"/>
+                <Entry/>
+            </StackLayout>
+        </Frame>
+
+        <!-- Buttons -->
+        <FlexLayout JustifyContent="Center"
+                    HorizontalOptions="FillAndExpand">
+
+            <Button Text="Save"
+                    Clicked="On_Save"
+                    BackgroundColor="LightGreen"/>
+
+            <Button Text="Erase"
+                    BackgroundColor="IndianRed"/>
+        </FlexLayout>
+        
+    </StackLayout>
+    <!-- End Content -->
+
+</ContentPage>
+

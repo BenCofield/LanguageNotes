@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2545" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Models\" />
+    <None Remove="Newtonsoft.Json" />
+    <None Remove="Pages\" />
+    <None Remove="Pages\Notebook\" />
+    <None Remove="Pages\Flashcards\" />
+    <None Remove="Pages\Settings\" />
+    <None Remove="ViewModels\" />
+    <None Remove="sqlite-net-pcl" />
+    <None Remove="db\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
+    <Folder Include="obj\" />
+    <Folder Include="Pages\" />
+    <Folder Include="Pages\Notebook\" />
+    <Folder Include="Pages\Flashcards\" />
+    <Folder Include="Pages\Settings\" />
+    <Folder Include="ViewModels\" />
+    <Folder Include="db\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="App.xaml.cs">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </Compile>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\Flashcards\NoteCardsPage.xaml.cs">
+      <DependentUpon>NoteCardsPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>
