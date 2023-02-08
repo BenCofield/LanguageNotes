@@ -6,16 +6,26 @@
 
     <StackLayout>
 
-        <CollectionView ItemsSource="{Binding Group}">
+        <CollectionView ItemsSource="{Binding Groups, Mode=TwoWay}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
+                    <StackLayout>
 
+                        <Frame BindingContext="{Binding .}">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Open_GroupPage"/>
+                            </Frame.GestureRecognizers>
+                            <Label Text="{Binding Name}"
+                                   FontAttributes="Bold"/>
+                        </Frame>
 
+                    </StackLayout>
                 </DataTemplate>
-
             </CollectionView.ItemTemplate>
-
         </CollectionView>
+
+        <Button Text="New Group"
+                Clicked="On_AddNewGroup"/>
     </StackLayout>
 </ContentPage>
 

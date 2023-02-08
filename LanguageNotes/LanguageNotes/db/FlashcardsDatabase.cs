@@ -29,14 +29,7 @@ namespace LanguageNotes.db
         //Database Operations
         public Task<int> SaveNoteCard(NoteCard noteCard)
         {
-            if (noteCard.ID != 0)
-            {
-                return Database.UpdateAsync(noteCard);
-            }
-            else
-            {
-                return Database.InsertAsync(noteCard);
-            }
+            return Database.InsertOrReplaceAsync(noteCard);
         }
 
         public Task<int> DeleteNoteCard(NoteCard noteCard)
@@ -64,6 +57,11 @@ namespace LanguageNotes.db
                            .ToListAsync();
         }
 
+        public Task<int> CreateGroup(Group group)
+        {
+            return Database.InsertAsync(group);
+        }
+
         public Task<List<Group>> GetGroupsInCategoryAsync(Category category)
         {
             return Database.Table<Group>()
@@ -71,10 +69,22 @@ namespace LanguageNotes.db
                            .ToListAsync();
         }
 
+        public Task<int> CreateCategoryAsync(Category category)
+        {
+            return Database.InsertAsync(category);
+        }
+
         public Task<List<Category>> GetAllCategories()
         {
             return Database.Table<Category>()
                            .ToListAsync();
+        }
+
+        public Task<Category> GetCategoryByID(int id)
+        {
+            return Database.Table<Category>()
+                           .Where(c => c.ID == id)
+                           .FirstAsync();
         }
     }
 }

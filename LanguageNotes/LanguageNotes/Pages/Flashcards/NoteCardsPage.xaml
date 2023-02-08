@@ -7,34 +7,31 @@
     Title="Flashcards">
 
     <!-- _____Start Content____ -->
-    <ScrollView>
 
-        <StackLayout Margin="20,35,20,20">
+    <StackLayout Margin="20,35,20,20">
                 
-            <Button Text="New Flashcard"
-                Clicked="Open_NewCardPage"/>
-
-            <CollectionView ItemsSource="{Binding Categories}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
+        <CollectionView ItemsSource="{Binding Categories, Mode=TwoWay}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
                             
-                        <StackLayout>
-                            <Frame BindingContext="{Binding .}"
-                                    Margin="20">
-                                <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="Open_Category"/>
-                                </Frame.GestureRecognizers>
-                                <Label Text="{Binding Name}"/>
-                            </Frame>
-                        </StackLayout>
+                    <StackLayout>
+                        <Frame BindingContext="{Binding .}"
+                                Margin="20">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Open_Category"/>
+                            </Frame.GestureRecognizers>
+                            <Label Text="{Binding Name}"/>
+                        </Frame>
+                    </StackLayout>
 
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
 
-        </StackLayout>
+        <Button Text="New Category"
+            Clicked="On_AddNewCategory"/>
 
-    </ScrollView>
+    </StackLayout>
 
 </ContentPage>
 

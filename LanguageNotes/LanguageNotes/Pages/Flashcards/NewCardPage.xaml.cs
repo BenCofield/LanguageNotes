@@ -9,31 +9,74 @@ namespace LanguageNotes.Pages
 {	
 	public partial class NewCardPage : ContentPage
 	{
-		private readonly FlashcardsDatabase _db;
-
-		public NoteCard NoteCard { get; private set; }
-
-		public NewCardPage ()
+		public NewCardPage(Group group)
 		{
-			InitializeComponent ();
-			NoteCard = new NoteCard();
-			_db = new FlashcardsDatabase();
-
-			BindingContext = NoteCard;
+			InitializeComponent();
+			Group = group;
+			BindingContext = this;
 		}
 
-        void On_Save(object sender, EventArgs e)
-		{
+		public Group Group { get; set; }
 
-			_db.SaveNoteCard(NoteCard);
-		}
+		public Category Category { get; set; }
 
-		int? CheckFieldsComplete()
+        public NoteCard NoteCard { get; private set; }
+
+		string frontText;
+		public string FrontText
 		{
-			if (NoteCard.FrontText == null)
+			get => frontText;
+			set
 			{
+				if (frontText == value)
+					return;
 
+				frontText = value;
+				OnPropertyChanged(nameof(FrontText));
 			}
+		}
+
+		string translation;
+		public string Translation
+		{
+			get => translation;
+			set
+			{
+				if (translation == value)
+					return;
+
+				translation = value;
+				OnPropertyChanged(nameof(Translation));
+			}
+		}
+
+        async protected override void OnAppearing()
+        {
+			FlashcardsDatabase db = await FlashcardsDatabase.Instance;
+			Category = await db.GetCategoryByID(Group.CategoryID);
+			NoteCard = new NoteCard
+			{
+				GroupID = Group.ID,
+				CategoryID = Category.ID
+			};
+        }
+
+        async void On_Save(object sender, EventArgs e)
+		{
+			CheckFieldsComplete();
+
+			FlashcardsDatabase db = await FlashcardsDatabase.Instance;
+			await db.SaveNoteCard(NoteCard);
+		}
+
+		int CheckFieldsComplete()
+		{
+			if (string.IsNullOrWhiteSpace(FrontText))
+				return -1;
+
+			if (string.IsNullOrWhiteSpace(Translation))
+				return -1;
+
 			return 0;
 		}
     }
