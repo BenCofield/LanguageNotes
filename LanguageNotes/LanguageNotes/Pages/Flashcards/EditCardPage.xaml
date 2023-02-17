@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:VM="clr-namespace:LanguageNotes.ViewModels"
+    x:Class="LanguageNotes.Pages.EditCardPage"
+    Title="Flashcard">
+    <ContentPage.Content>
+    <!-- Start Content -->
+    <StackLayout Margin="20, 20, 20, 20">
+
+        <!-- Front Text -->
+        <Frame BorderColor="Gray">
+            <StackLayout>
+                <Label Text="Front Text"
+                       FontSize="Small"
+                       FontAttributes="Bold"/>
+                <Label x:Name="error_label"
+                       Text="Field cannot be blank"
+                       TextColor="PaleVioletRed"
+                       IsVisible="false"/>
+                <Entry Text="{Binding FrontText}"/>
+            </StackLayout>
+        </Frame>
+
+        <!-- Back Text/Translations -->
+        <Frame BorderColor="Gray">
+            <StackLayout>
+                <Label Text="Translation"
+                       FontAttributes="Bold"/>
+                <Label Text="Field cannot be blank"
+                       TextColor="PaleVioletRed"
+                       IsVisible="false"/>
+                <Entry Text="{Binding Translation}"/>
+                
+                <Label Text="Alternate Translations"
+                       FontAttributes="Bold"/>
+                <Entry Text="{Binding AltTranslations}"/>
+            </StackLayout>
+        </Frame>
+
+        <!-- Buttons -->
+        <FlexLayout JustifyContent="Center"
+                    HorizontalOptions="FillAndExpand">
+
+            <Button Text="Save"
+                    Command="{Binding SaveCommand}"
+                    BackgroundColor="LightGreen"/>
+
+            <Button Text="Erase"
+                    Command="{Binding EraseCommand}"
+                    BackgroundColor="IndianRed"/>
+        </FlexLayout>
+        
+    </StackLayout>
+    <!-- End Content -->
+    </ContentPage.Content>
+</ContentPage>
+

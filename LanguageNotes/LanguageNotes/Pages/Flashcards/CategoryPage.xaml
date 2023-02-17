@@ -2,21 +2,27 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="LanguageNotes.Pages.CategoryPage">
+    xmlns:VM ="clr-namespace:LanguageNotes.ViewModels"
+    x:Class="LanguageNotes.Pages.CategoryPage"
+
+    Title="{Binding Category.Name, StringFormat='Category: {0:F0}'}">
 
     <StackLayout>
 
-        <CollectionView ItemsSource="{Binding Groups, Mode=TwoWay}">
+        <CollectionView ItemsSource="{Binding GroupsList}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout>
 
-                        <Frame BindingContext="{Binding .}">
+                        <Frame BindingContext="{Binding .}"
+                               Margin="20">
                             <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="Open_GroupPage"/>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type VM:CategoryViewModel}}, Path=OpenGroupPageCommand}"
+                                                      CommandParameter="{Binding .}"/>
                             </Frame.GestureRecognizers>
                             <Label Text="{Binding Name}"
                                    FontAttributes="Bold"/>
+                            
                         </Frame>
 
                     </StackLayout>
@@ -25,7 +31,7 @@
         </CollectionView>
 
         <Button Text="New Group"
-                Clicked="On_AddNewGroup"/>
+                Command="{Binding OnAddNewGroupCommand}"/>
     </StackLayout>
 </ContentPage>
 

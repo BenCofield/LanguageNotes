@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2545" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.7.4" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.5" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
   </ItemGroup>
@@ -26,6 +26,7 @@
     <None Remove="ViewModels\" />
     <None Remove="sqlite-net-pcl" />
     <None Remove="db\" />
+    <None Remove="db\Repos\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -36,13 +37,14 @@
     <Folder Include="Pages\Settings\" />
     <Folder Include="ViewModels\" />
     <Folder Include="db\" />
+    <Folder Include="db\Repos\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="App.xaml.cs">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </Compile>
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\Flashcards\NoteCardsPage.xaml.cs">
-      <DependentUpon>NoteCardsPage.xaml</DependentUpon>
+      <DependentUpon>FlashcardsHomePage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

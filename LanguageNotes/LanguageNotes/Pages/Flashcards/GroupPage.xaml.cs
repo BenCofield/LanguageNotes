@@ -1,49 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using LanguageNotes.Models;
-using LanguageNotes.db;
+using LanguageNotes.ViewModels;
 
 namespace LanguageNotes.Pages
 {
     public partial class GroupPage : ContentPage
     {
+        GroupViewModel viewModel;
         public GroupPage(Group group)
         {
             InitializeComponent();
-            Group = group;
-            Title = group.Name;
-            BindingContext = this;
+            viewModel = new GroupViewModel(group);
+            BindingContext = viewModel;
         }
 
-        public Group Group { get; set; }
-
-        IList<NoteCard> noteCardsList;
-        public IList<NoteCard> NoteCardsList
+        protected override void OnAppearing()
         {
-            get => noteCardsList;
-            set
-            {
-                if (noteCardsList == value)
-                    return;
-
-                noteCardsList = value;
-                OnPropertyChanged(nameof(NoteCardsList));
-            }
+            base.OnAppearing();
+            viewModel.OnAppearing();
         }
-
-        protected override async void OnAppearing()
-        {
-            FlashcardsDatabase db = await FlashcardsDatabase.Instance;
-            NoteCardsList = await db.GetNoteCardsInGroup(Group);
-        }
-
-        async void Open_NewNotePage(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new NewCardPage(Group));
-        }
-
     }
 }
 

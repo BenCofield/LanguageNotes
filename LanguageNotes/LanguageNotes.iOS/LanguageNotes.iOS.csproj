@@ -124,7 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2545" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.7.4" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.5" />
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.2</Version>
     </PackageReference>
@@ -143,5 +143,9 @@
     <AndroidResource Include="Resources\flashcard_tab_icon.png" />
     <AndroidResource Include="Resources\book_icon.png" />
     <AndroidResource Include="Resources\settings_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\trash_bin.png" />
+    <BundleResource Include="Resources\dots.png" />
   </ItemGroup>
 </Project>

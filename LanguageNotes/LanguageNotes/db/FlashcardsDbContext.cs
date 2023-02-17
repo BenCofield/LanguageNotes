@@ -1,11 +1,9 @@
-﻿
-using System.Collections.Generic;
-using SQLite;
+﻿using SQLite;
 
-namespace LanguageNotes.Models
+namespace LanguageNotes.db
 {
     [Table("flashcards")]
-    public class NoteCard
+    public class FlashcardDbContext
     {
         [PrimaryKey, AutoIncrement, Column("_id")]
         public int ID { get; set; }
@@ -14,7 +12,7 @@ namespace LanguageNotes.Models
 
         public string Translation { get; set; }
 
-        public string AltTranslations { get; set; }
+        public string AltTranslationsJson { get; set; }
 
         public int GroupID { get; set; }
 
@@ -22,7 +20,7 @@ namespace LanguageNotes.Models
     }
 
     [Table("groups")]
-    public class Group
+    public class GroupDbContext
     {
         [PrimaryKey, AutoIncrement, Column("_id")]
         public int ID { get; set; }
@@ -33,7 +31,7 @@ namespace LanguageNotes.Models
     }
 
     [Table("categories")]
-    public class Category
+    public class CategoryDbContext
     {
         [PrimaryKey, AutoIncrement, Column("_id")]
         public int ID { get; set; }

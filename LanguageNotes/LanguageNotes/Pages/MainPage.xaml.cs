@@ -16,7 +16,7 @@ namespace LanguageNotes
         public MainPage()
         {
             InitializeComponent();
-            var noteCardsPage = new NavigationPage(new NoteCardsPage());
+            var noteCardsPage =  new FlashcardsHomePage();
             noteCardsPage.Title = "Flashcards";
             noteCardsPage.IconImageSource = "flashcard_tab_icon.png";
 

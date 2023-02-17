@@ -2,27 +2,55 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="LanguageNotes.Pages.GroupPage">
+    xmlns:VM="clr-namespace:LanguageNotes.ViewModels"
+    x:Class="LanguageNotes.Pages.GroupPage"
+
+    Title="{Binding Group.Name, StringFormat='Group: {0:F0}'}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="dots.png"/>
+
+    </ContentPage.ToolbarItems>
 
     <StackLayout>
 
-        <CollectionView ItemsSource="{Binding NoteCardsList}">
+        <CollectionView ItemsSource="{Binding FlashcardsList}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
 
-                    <Frame BorderColor="Gray" BindingContext="{Binding .}">
-                        <Label Text="{Binding FrontText}">
-                            
+                    <StackLayout>
+                        <Frame BorderColor="Gray" BindingContext="{Binding .}">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type VM:GroupViewModel}}, Path=EditFlashcardPageCommand}"
+                                                      CommandParameter="{Binding .}"/>
+                            </Frame.GestureRecognizers>
 
-                        </Label>
-                    </Frame>
+                            <Grid>
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                                    <Label Text="{Binding FrontText}"/>
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="End">
+                                    <Image HorizontalOptions="End"
+                                           HeightRequest="20"
+                                           WidthRequest="20"
+                                           Source="trash_bin.png">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type VM:GroupViewModel}}, Path=DeleteFlashcardCommand}"
+                                                                  CommandParameter="{Binding .}"/>
+                                        </Image.GestureRecognizers>
+                                    </Image>
+
+                                </StackLayout>
+                                
+                            </Grid>
+                        </Frame>
+                    </StackLayout>
 
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
 
         <Button Text="New Note"
-                Clicked="Open_NewNotePage"/>
+                Command="{Binding NewFlashcardPageCommand}"/>
     </StackLayout>
 </ContentPage>
 

@@ -1,18 +1,17 @@
 ﻿using Xamarin.Forms;
-using LanguageNotes.Models;
 using LanguageNotes.ViewModels;
 
 namespace LanguageNotes.Pages
 {	
-	public partial class CategoryPage : ContentPage
+	public partial class FlashcardsHomePage : ContentPage
 	{
-		CategoryViewModel viewModel;
-		public CategoryPage(Category category)
-		{
-			InitializeComponent();
-            viewModel = new CategoryViewModel(category);
+        FlashcardsHomeViewModel viewModel;
+        public FlashcardsHomePage()
+        {
+            InitializeComponent();
+            viewModel = new FlashcardsHomeViewModel();
             BindingContext = viewModel;
-		}
+        }
 
         protected override void OnAppearing()
         {

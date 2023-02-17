@@ -13,9 +13,9 @@ namespace LanguageNotes.db
         public static readonly AsyncLazy<FlashcardsDatabase> Instance = new AsyncLazy<FlashcardsDatabase>(async () =>
         {
             var instance = new FlashcardsDatabase();
-            var result = await Database.CreateTableAsync<NoteCard>();
-            result = await Database.CreateTableAsync<Group>();
-            result = await Database.CreateTableAsync<Category>();
+            var result = await Database.CreateTableAsync<FlashcardDbContext>();
+            result = await Database.CreateTableAsync<GroupDbContext>();
+            result = await Database.CreateTableAsync<CategoryDbContext>();
             return instance;
         });
 
@@ -24,68 +24,75 @@ namespace LanguageNotes.db
             Database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
         }
 
-
-
         //Database Operations
-        public Task<int> SaveNoteCard(NoteCard noteCard)
+        public Task<int> SaveNoteCard(FlashcardDbContext noteCard)
         {
-            return Database.InsertOrReplaceAsync(noteCard);
+            if (noteCard.ID == 0)
+            {
+                noteCard.ID++;
+                return Database.InsertAsync(noteCard);
+            }
+            else
+            {
+                return Database.UpdateAsync(noteCard);
+            }
         }
 
-        public Task<int> DeleteNoteCard(NoteCard noteCard)
+        public Task<int> DeleteNoteCard(FlashcardDbContext noteCard)
         {
-            return Database.DeleteAsync<NoteCard>(noteCard);
+            return Database.DeleteAsync(noteCard);
         }
 
-        public Task<List<NoteCard>> GetAllNoteCardsAsync()
+        public Task<List<FlashcardDbContext>> GetAllNoteCardsAsync()
         {
-            return Database.Table<NoteCard>()
+            return Database.Table<FlashcardDbContext>()
                            .ToListAsync();
         }
 
-        public Task<NoteCard> GetNoteCard(NoteCard noteCard)
+        public Task<FlashcardDbContext> GetNoteCard(FlashcardDbContext noteCard)
         {
-            return Database.Table<NoteCard>()
+            return Database.Table<FlashcardDbContext>()
                            .Where(card => card.ID == noteCard.ID)
                            .FirstAsync();
         }
 
-        public Task<List<NoteCard>> GetNoteCardsInGroup(Group group)
+        public Task<List<FlashcardDbContext>> GetNoteCardsInGroup(GroupDbContext group)
         {
-            return Database.Table<NoteCard>()
+            return Database.Table<FlashcardDbContext>()
                            .Where(card => card.GroupID == group.ID)
                            .ToListAsync();
         }
 
-        public Task<int> CreateGroup(Group group)
+        public Task<int> CreateGroup(GroupDbContext group)
         {
             return Database.InsertAsync(group);
         }
 
-        public Task<List<Group>> GetGroupsInCategoryAsync(Category category)
+        public Task<List<GroupDbContext>> GetGroupsInCategoryAsync(CategoryDbContext category)
         {
-            return Database.Table<Group>()
+            return Database.Table<GroupDbContext>()
                            .Where(group => group.CategoryID == category.ID)
                            .ToListAsync();
         }
 
-        public Task<int> CreateCategoryAsync(Category category)
+        public Task<int> CreateCategoryAsync(CategoryDbContext category)
         {
             return Database.InsertAsync(category);
         }
 
-        public Task<List<Category>> GetAllCategories()
+        public Task<List<CategoryDbContext>> GetAllCategories()
         {
-            return Database.Table<Category>()
+            return Database.Table<CategoryDbContext>()
                            .ToListAsync();
         }
 
-        public Task<Category> GetCategoryByID(int id)
+        public Task<CategoryDbContext> GetCategoryByID(int id)
         {
-            return Database.Table<Category>()
+            return Database.Table<CategoryDbContext>()
                            .Where(c => c.ID == id)
                            .FirstAsync();
         }
+
     }
 }
 
