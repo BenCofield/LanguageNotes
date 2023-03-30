@@ -3,7 +3,7 @@
 namespace LanguageNotes.db
 {
     [Table("flashcards")]
-    public class FlashcardDbContext
+    public class FlashcardDboObject
     {
         [PrimaryKey, AutoIncrement, Column("_id")]
         public int ID { get; set; }
@@ -20,7 +20,7 @@ namespace LanguageNotes.db
     }
 
     [Table("groups")]
-    public class GroupDbContext
+    public class GroupDboObject
     {
         [PrimaryKey, AutoIncrement, Column("_id")]
         public int ID { get; set; }
@@ -31,7 +31,7 @@ namespace LanguageNotes.db
     }
 
     [Table("categories")]
-    public class CategoryDbContext
+    public class CategoryDboObject
     {
         [PrimaryKey, AutoIncrement, Column("_id")]
         public int ID { get; set; }

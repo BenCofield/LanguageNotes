@@ -13,8 +13,6 @@ namespace LanguageNotes.ViewModels
 {
 	public class FlashcardsHomeViewModel : BaseViewModel
 	{
-        private readonly CategoryRepo categoryRepo;
-
         IList<Category> categories;
         public IList<Category> Categories
         {
@@ -45,17 +43,17 @@ namespace LanguageNotes.ViewModels
         //ctor
 		public FlashcardsHomeViewModel()
 		{
-            categoryRepo = new CategoryRepo();
+            
         }
 
         internal async override void OnAppearing()
         {
-            Categories = await categoryRepo.LoadAllCategories();
+            Categories = await repo.LoadAllCategories();
         }
 
 		async void OpenCategoryPage(Category category)
 		{
-			await Application.Current.MainPage.Navigation.PushAsync(new NavigationPage(new CategoryPage(category)));
+			await Application.Current.MainPage.Navigation.PushAsync(new CategoryPage(category));
 		}
 
         async void OnAddNewCategory()
@@ -71,8 +69,8 @@ namespace LanguageNotes.ViewModels
                 return;
 
             var newCat = new Category(result);
-            await categoryRepo.CreateNewCategory(newCat);
-            Categories = await categoryRepo.LoadAllCategories();
+            await repo.CreateNewCategory(newCat);
+            Categories = await repo.LoadAllCategories();
         }
     }
 }

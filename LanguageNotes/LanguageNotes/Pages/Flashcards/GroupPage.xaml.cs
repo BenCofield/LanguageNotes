@@ -1,6 +1,7 @@
 ﻿using Xamarin.Forms;
 using LanguageNotes.Models;
 using LanguageNotes.ViewModels;
+using System;
 
 namespace LanguageNotes.Pages
 {

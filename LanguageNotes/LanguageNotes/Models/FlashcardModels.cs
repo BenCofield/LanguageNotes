@@ -25,7 +25,7 @@ namespace LanguageNotes.Models
 			Category = group.Category;
 		}
 
-		public Flashcard(FlashcardDbContext flashcardDbContext)
+		public Flashcard(FlashcardDboObject flashcardDbContext)
 		{
 			ID = flashcardDbContext.ID;
 			FrontText = flashcardDbContext.FrontText;
@@ -70,7 +70,7 @@ namespace LanguageNotes.Models
 			};
 		}
 
-		public Group (GroupDbContext groupDbContext)
+		public Group (GroupDboObject groupDbContext)
 		{
 			ID = groupDbContext.ID;
 			Name = groupDbContext.Name;
@@ -98,7 +98,7 @@ namespace LanguageNotes.Models
 			Name = name;
 		}
 
-        public Category(CategoryDbContext categoryDbContext)
+        public Category(CategoryDboObject categoryDbContext)
 		{
 			ID = categoryDbContext.ID;
 			Name = categoryDbContext.Name;

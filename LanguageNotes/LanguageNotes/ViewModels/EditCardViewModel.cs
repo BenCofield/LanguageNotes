@@ -9,9 +9,7 @@ namespace LanguageNotes.ViewModels
 {
     public class EditCardViewModel : BaseViewModel
     {
-        private readonly FlashcardsRepo flashcardsRepo;
-
-        public Flashcard NoteCard { get; set; }
+        private Flashcard NoteCard { get; set; }
 
         public string FrontText
         {
@@ -49,13 +47,12 @@ namespace LanguageNotes.ViewModels
 
         public EditCardViewModel(Flashcard note)
         {
-            flashcardsRepo = new FlashcardsRepo();
             NoteCard = note;
         }
 
         async void Save()
         {
-            await flashcardsRepo.SaveFlashcard(NoteCard);
+            await repo.SaveFlashcard(NoteCard);
             await Application.Current.MainPage.Navigation.PopAsync();
         }
 

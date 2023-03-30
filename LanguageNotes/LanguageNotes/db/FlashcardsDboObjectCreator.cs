@@ -1,49 +1,48 @@
 ﻿using System;
-
 using LanguageNotes.Models;
 using Newtonsoft.Json;
 
 namespace LanguageNotes.db
 {
-	public class FlashcardsDbContextFactory
+	public class FlashcardsDboObjectCreator
 	{
-		public static CategoryDbContext NewCategory(Category category)
+		public static CategoryDboObject NewCategory(Category category)
 		{
-			return new CategoryDbContext
+			return new CategoryDboObject
 			{
 				Name = category.Name
 			};
 		}
 
-		public static CategoryDbContext GetCategory(Category category)
+		public static CategoryDboObject GetCategory(Category category)
 		{
-			return new CategoryDbContext
+			return new CategoryDboObject
 			{
 				ID = category.ID,
 				Name = category.Name
 			};
 		}
 
-		public static GroupDbContext NewGroup(Group group)
+		public static GroupDboObject NewGroup(Group group)
 		{
-			return new GroupDbContext
+			return new GroupDboObject
 			{
 				Name = group.Name,
 				CategoryID = group.Category.ID
 			};
         }
 
-		public static GroupDbContext GetGroup(Group group)
+		public static GroupDboObject GetGroup(Group group)
 		{
-			return new GroupDbContext {
+			return new GroupDboObject {
 				ID = group.ID,
 				Name = group.Name
 			};
         }
 
-		public static FlashcardDbContext GetFlashcard(Flashcard flashcard)
+		public static FlashcardDboObject GetFlashcard(Flashcard flashcard)
 		{
-			return new FlashcardDbContext
+			return new FlashcardDboObject
 			{
 				ID = flashcard.ID,
 				FrontText = flashcard.FrontText,

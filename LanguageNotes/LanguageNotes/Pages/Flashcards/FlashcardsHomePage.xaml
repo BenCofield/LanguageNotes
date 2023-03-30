@@ -1,4 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    FILE: FlashcardsHomePage.xaml
+    DESC: View for home page of application. Contains list of each category
+-->
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -7,16 +11,19 @@
     
     Title="Flashcards Home">
 
-    <!-- _____Start Content____ -->
+    <!--Main content-->
     <StackLayout Margin="20,35,20,20">
                 
         <CollectionView ItemsSource="{Binding Categories}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                            
+
+                    <!--Each category in storage-->
                     <StackLayout>
                         <Frame BindingContext="{Binding .}"
                                 Margin="20">
+
+                            <!--Open category command-->
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type VM:FlashcardsHomeViewModel}}, Path=OpenCategoryPageCommand}"
                                                       CommandParameter="{Binding .}"/>
@@ -29,6 +36,7 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
+        <!--Add a new category command-->
         <Button Text="New Category"
                 Command="{Binding OnAddNewCategoryCommand}"/>
 

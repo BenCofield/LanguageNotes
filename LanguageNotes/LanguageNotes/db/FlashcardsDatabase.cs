@@ -13,9 +13,9 @@ namespace LanguageNotes.db
         public static readonly AsyncLazy<FlashcardsDatabase> Instance = new AsyncLazy<FlashcardsDatabase>(async () =>
         {
             var instance = new FlashcardsDatabase();
-            var result = await Database.CreateTableAsync<FlashcardDbContext>();
-            result = await Database.CreateTableAsync<GroupDbContext>();
-            result = await Database.CreateTableAsync<CategoryDbContext>();
+            var result = await Database.CreateTableAsync<FlashcardDboObject>();
+            result = await Database.CreateTableAsync<GroupDboObject>();
+            result = await Database.CreateTableAsync<CategoryDboObject>();
             return instance;
         });
 
@@ -25,7 +25,7 @@ namespace LanguageNotes.db
         }
 
         //Database Operations
-        public Task<int> SaveNoteCard(FlashcardDbContext noteCard)
+        public Task<int> SaveNoteCard(FlashcardDboObject noteCard)
         {
             if (noteCard.ID == 0)
             {
@@ -38,61 +38,80 @@ namespace LanguageNotes.db
             }
         }
 
-        public Task<int> DeleteNoteCard(FlashcardDbContext noteCard)
+        public Task<int> DeleteNoteCard(FlashcardDboObject noteCard)
         {
             return Database.DeleteAsync(noteCard);
         }
 
-        public Task<List<FlashcardDbContext>> GetAllNoteCardsAsync()
+        public Task<List<FlashcardDboObject>> GetAllNoteCardsAsync()
         {
-            return Database.Table<FlashcardDbContext>()
+            return Database.Table<FlashcardDboObject>()
                            .ToListAsync();
         }
 
-        public Task<FlashcardDbContext> GetNoteCard(FlashcardDbContext noteCard)
+        public Task<FlashcardDboObject> GetNoteCard(FlashcardDboObject noteCard)
         {
-            return Database.Table<FlashcardDbContext>()
+            return Database.Table<FlashcardDboObject>()
                            .Where(card => card.ID == noteCard.ID)
                            .FirstAsync();
         }
 
-        public Task<List<FlashcardDbContext>> GetNoteCardsInGroup(GroupDbContext group)
+        public Task<List<FlashcardDboObject>> GetNoteCardsInGroup(GroupDboObject group)
         {
-            return Database.Table<FlashcardDbContext>()
+            return Database.Table<FlashcardDboObject>()
                            .Where(card => card.GroupID == group.ID)
                            .ToListAsync();
         }
 
-        public Task<int> CreateGroup(GroupDbContext group)
+        public Task<int> CreateGroup(GroupDboObject group)
         {
             return Database.InsertAsync(group);
         }
 
-        public Task<List<GroupDbContext>> GetGroupsInCategoryAsync(CategoryDbContext category)
+        public Task<List<GroupDboObject>> GetGroupsInCategoryAsync(CategoryDboObject category)
         {
-            return Database.Table<GroupDbContext>()
+            return Database.Table<GroupDboObject>()
                            .Where(group => group.CategoryID == category.ID)
                            .ToListAsync();
         }
 
-        public Task<int> CreateCategoryAsync(CategoryDbContext category)
+        public Task UpdateGroup(GroupDboObject group)
+        {
+            return Database.UpdateAsync(group);
+        }
+
+        public Task DeleteGroup(GroupDboObject group)
+        {
+            return Database.DeleteAsync<GroupDboObject>(group);
+        }
+
+        public Task<int> CreateCategoryAsync(CategoryDboObject category)
         {
             return Database.InsertAsync(category);
         }
 
-        public Task<List<CategoryDbContext>> GetAllCategories()
+        public Task<List<CategoryDboObject>> GetAllCategories()
         {
-            return Database.Table<CategoryDbContext>()
+            return Database.Table<CategoryDboObject>()
                            .ToListAsync();
         }
 
-        public Task<CategoryDbContext> GetCategoryByID(int id)
+        public Task<CategoryDboObject> GetCategoryByID(int id)
         {
-            return Database.Table<CategoryDbContext>()
+            return Database.Table<CategoryDboObject>()
                            .Where(c => c.ID == id)
                            .FirstAsync();
         }
 
+        public Task UpdateCategory(CategoryDboObject category)
+        {
+            return Database.UpdateAsync(category);
+        }
+
+        public Task DeleteCategory(CategoryDboObject category)
+        {
+            return Database.DeleteAsync<CategoryDboObject>(category);
+        }
     }
 }
 

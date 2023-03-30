@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using LanguageNotes.db;
 using Xamarin.Forms;
 
 
@@ -8,8 +9,11 @@ namespace LanguageNotes.ViewModels
 {
 	public class BaseViewModel : INotifyPropertyChanged
 	{
-		public BaseViewModel()
+        internal readonly IFlashcardsRepo repo = new FlashcardsRepo();
+
+        public BaseViewModel()
 		{
+            
 		}
 
         public event PropertyChangedEventHandler PropertyChanged;

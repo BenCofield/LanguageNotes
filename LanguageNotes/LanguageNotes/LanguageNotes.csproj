@@ -26,7 +26,6 @@
     <None Remove="ViewModels\" />
     <None Remove="sqlite-net-pcl" />
     <None Remove="db\" />
-    <None Remove="db\Repos\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -37,7 +36,6 @@
     <Folder Include="Pages\Settings\" />
     <Folder Include="ViewModels\" />
     <Folder Include="db\" />
-    <Folder Include="db\Repos\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="App.xaml.cs">
