@@ -36,7 +36,7 @@ namespace LanguageNotes.Models
 				ID = flashcardDbContext.CategoryID
 			};
 
-			Group = new Group
+			Group = new Group()
 			{
 				ID = flashcardDbContext.GroupID
 			};
@@ -45,7 +45,7 @@ namespace LanguageNotes.Models
 
 	public class Group
 	{
-		public int ID { get; set; }		
+		public int ID { get; set; } = 0;	
 		public string Name { get; set; }
 		public Category Category { get; set; }
         public List<Flashcard> Flashcards { get; set; }
@@ -74,7 +74,7 @@ namespace LanguageNotes.Models
 		{
 			ID = groupDbContext.ID;
 			Name = groupDbContext.Name;
-			Category = new Category
+			Category = new Category()
 			{
 				ID = groupDbContext.CategoryID
 			};
@@ -83,14 +83,14 @@ namespace LanguageNotes.Models
 
 	public class Category
 	{
-		public int ID { get; set; }
+		public int ID { get; set; } = 0;
 		public string Name { get; set; }
 		public string ImagePath { get; set; }
         public List<Group> Groups { get; set; }
 
 		public Category()
 		{
-			
+
 		}
 
 		public Category(string name)
@@ -98,10 +98,10 @@ namespace LanguageNotes.Models
 			Name = name;
 		}
 
-        public Category(CategoryDboObject categoryDbContext)
+        public Category(CategoryDboObject categoryDbo)
 		{
-			ID = categoryDbContext.ID;
-			Name = categoryDbContext.Name;
+			ID = categoryDbo.ID;
+			Name = categoryDbo.Name;
 		}
 	}
 }

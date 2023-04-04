@@ -59,9 +59,9 @@ namespace LanguageNotes.ViewModels
             Group = group;
         }
 
-        internal async override void OnAppearing()
+        internal override void OnAppearing()
         {
-            FlashcardsList = await repo.LoadFlashcardsInGroup(Group);
+            FlashcardsList = FlashcardsDatabase.GetNoteCardsInGroup(Group);
         }
 
         async void OpenOptions()
@@ -102,8 +102,8 @@ namespace LanguageNotes.ViewModels
             var temp = Group;
             temp.Name = newName;
             Group = temp;
-            await repo.RenameGroup(Group);
-            await repo.LoadFlashcardsInGroup(Group);
+            FlashcardsDatabase.UpdateGroup(Group);
+            FlashcardsDatabase.GetNoteCardsInGroup(Group);
         }
 
         async void DeleteGroup()
@@ -113,7 +113,7 @@ namespace LanguageNotes.ViewModels
                 cancel: "Cancel",
                 destruction: "Delete");
             if (result != "Delete") return;
-            await repo.DeleteGroup(Group);
+            FlashcardsDatabase.DeleteGroup(Group);
             await Application.Current.MainPage.Navigation.PopAsync();
         }
 
@@ -138,8 +138,8 @@ namespace LanguageNotes.ViewModels
             if (result != "Delete")
                 return;
 
-            await repo.DeleteFlashcard(flashcard);
-            FlashcardsList = await repo.LoadFlashcardsInGroup(Group);
+            FlashcardsDatabase.DeleteNoteCard(flashcard);
+            FlashcardsList = FlashcardsDatabase.GetNoteCardsInGroup(Group);
         }
     }
 }

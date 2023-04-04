@@ -60,9 +60,9 @@ namespace LanguageNotes.ViewModels
 			Category = category;
         }
 
-		internal async override void OnAppearing()
+		internal override void OnAppearing()
 		{
-			GroupsList = await repo.LoadGroupsInCategory(Category);
+            GroupsList = FlashcardsDatabase.GetGroupsInCategory(Category);
 		}
 
         async void OpenOptions()
@@ -105,7 +105,7 @@ namespace LanguageNotes.ViewModels
             var temp = this.Category;
             temp.Name = newName;
             this.Category = temp;
-            await repo.RenameCategory(this.Category);
+            FlashcardsDatabase.UpdateCategory(Category);
         }
 
         async void DeleteCategory()
@@ -116,7 +116,7 @@ namespace LanguageNotes.ViewModels
                 destruction: "Delete");
 
             if (result != "Delete") return;
-            await repo.DeleteCategory(this.Category);
+            FlashcardsDatabase.DeleteCategory(Category);
             await Application.Current.MainPage.Navigation.PopAsync();
         }
 
@@ -138,8 +138,8 @@ namespace LanguageNotes.ViewModels
                 return;
 
 			var newGroup = new Group(result, Category);
-			await repo.CreateNewGroup(newGroup);
-			GroupsList = await repo.LoadGroupsInCategory(Category);
+			FlashcardsDatabase.CreateGroup(newGroup);
+			GroupsList = FlashcardsDatabase.GetGroupsInCategory(Category);
         }
 	}
 }

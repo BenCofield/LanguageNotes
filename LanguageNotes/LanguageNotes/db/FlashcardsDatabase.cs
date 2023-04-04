@@ -3,114 +3,142 @@ using LanguageNotes.Models;
 using System.IO;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System;
 
 namespace LanguageNotes.db
 {
     public class FlashcardsDatabase
     {
-        static SQLiteAsyncConnection Database;
+        static SQLiteConnection Database;
 
-        public static readonly AsyncLazy<FlashcardsDatabase> Instance = new AsyncLazy<FlashcardsDatabase>(async () =>
-        {
-            var instance = new FlashcardsDatabase();
-            var result = await Database.CreateTableAsync<FlashcardDboObject>();
-            result = await Database.CreateTableAsync<GroupDboObject>();
-            result = await Database.CreateTableAsync<CategoryDboObject>();
-            return instance;
-        });
+        private static readonly FlashcardsDatabase instance = new FlashcardsDatabase();
 
         public FlashcardsDatabase()
         {
-            Database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
+            Database = new SQLiteConnection(Constants.DatabasePath, Constants.Flags);
+            var result = Database.CreateTable<FlashcardDboObject>();
+            result = Database.CreateTable<GroupDboObject>();
+            result = Database.CreateTable<CategoryDboObject>();
         }
 
         //Database Operations
-        public Task<int> SaveNoteCard(FlashcardDboObject noteCard)
+        public static int SaveNoteCard(Flashcard card)
         {
+            var noteCard = new FlashcardDboObject(card);
             if (noteCard.ID == 0)
             {
                 noteCard.ID++;
-                return Database.InsertAsync(noteCard);
+                return Database.Insert(noteCard);
             }
             else
             {
-                return Database.UpdateAsync(noteCard);
+                return Database.Update(noteCard);
             }
         }
 
-        public Task<int> DeleteNoteCard(FlashcardDboObject noteCard)
+        public static int DeleteNoteCard(Flashcard noteCard)
         {
-            return Database.DeleteAsync(noteCard);
+            var dbo = new FlashcardDboObject(noteCard);
+            return Database.Delete(noteCard);
         }
 
-        public Task<List<FlashcardDboObject>> GetAllNoteCardsAsync()
+        public static IList<Flashcard> GetAllNoteCards()
         {
-            return Database.Table<FlashcardDboObject>()
-                           .ToListAsync();
+            var cards = new List<Flashcard>();
+            var dboList = Database.Table<FlashcardDboObject>()
+                    .ToList();
+            dboList.ForEach(obj => cards.Add(new Flashcard(obj)));
+            return cards;
         }
 
-        public Task<FlashcardDboObject> GetNoteCard(FlashcardDboObject noteCard)
+        public static Flashcard GetNoteCard(Flashcard noteCard)
         {
-            return Database.Table<FlashcardDboObject>()
-                           .Where(card => card.ID == noteCard.ID)
-                           .FirstAsync();
+            return new Flashcard(Database.Table<FlashcardDboObject>()
+                                                .Where(card => card.ID == noteCard.ID)
+                                                .First());
         }
 
-        public Task<List<FlashcardDboObject>> GetNoteCardsInGroup(GroupDboObject group)
+        public static IList<Flashcard> GetNoteCardsInGroup(Group group)
         {
-            return Database.Table<FlashcardDboObject>()
-                           .Where(card => card.GroupID == group.ID)
-                           .ToListAsync();
+            var result = new List<Flashcard>();
+            var dboList = Database.Table<FlashcardDboObject>()
+                                        .Where(card => card.GroupID == group.ID)
+                                        .ToList();
+            dboList.ForEach(obj => result.Add(new Flashcard(obj)));
+            return result;
         }
 
-        public Task<int> CreateGroup(GroupDboObject group)
+        public static int CreateGroup(Group group)
         {
-            return Database.InsertAsync(group);
+            return Database.Insert(new GroupDboObject(group));
         }
 
-        public Task<List<GroupDboObject>> GetGroupsInCategoryAsync(CategoryDboObject category)
+        public static IList<Group> GetGroupsInCategory(Category category)
         {
-            return Database.Table<GroupDboObject>()
-                           .Where(group => group.CategoryID == category.ID)
-                           .ToListAsync();
+            var result = new List<Group>();
+            var dboList = Database.Table<GroupDboObject>()
+                                        .Where(group => group.CategoryID == category.ID)
+                                        .ToList();
+            dboList.ForEach(obj => result.Add(new Group(obj)));
+            return result;
         }
 
-        public Task UpdateGroup(GroupDboObject group)
+        public static int UpdateGroup(Group group)
         {
-            return Database.UpdateAsync(group);
+            return Database.Update(new GroupDboObject(group));
         }
 
-        public Task DeleteGroup(GroupDboObject group)
+        public static int DeleteGroup(Group group)
         {
-            return Database.DeleteAsync<GroupDboObject>(group);
+            return Database.Delete(new GroupDboObject(group));
         }
 
-        public Task<int> CreateCategoryAsync(CategoryDboObject category)
+        public static int CreateCategory(Category category)
         {
-            return Database.InsertAsync(category);
+            return Database.Insert(new CategoryDboObject(category));
         }
 
-        public Task<List<CategoryDboObject>> GetAllCategories()
+        public static IList<Category> GetAllCategories()
         {
-            return Database.Table<CategoryDboObject>()
-                           .ToListAsync();
+            var result = new List<Category>();
+            var dboList = Database.Table<CategoryDboObject>()
+                                        .ToList();
+            dboList.ForEach(obj => result.Add(new Category(obj)));
+            return result;
         }
 
-        public Task<CategoryDboObject> GetCategoryByID(int id)
+        public static Category GetCategoryByID(int id)
         {
-            return Database.Table<CategoryDboObject>()
-                           .Where(c => c.ID == id)
-                           .FirstAsync();
+            return new Category(Database.Table<CategoryDboObject>()
+                                 .Where(c => c.ID == id)
+                                 .First());
         }
 
-        public Task UpdateCategory(CategoryDboObject category)
+        public static int UpdateCategory(Category category)
         {
-            return Database.UpdateAsync(category);
+            return Database.Update(new CategoryDboObject(category));
         }
 
-        public Task DeleteCategory(CategoryDboObject category)
+        public static int DeleteCategory(Category category)
         {
-            return Database.DeleteAsync<CategoryDboObject>(category);
+            return Database.Delete(new CategoryDboObject(category));
+        }
+
+        private object ToConcrete<T>(ref T dbo)
+        {
+            if (dbo is CategoryDboObject)
+            {
+                return new Category(dbo as CategoryDboObject);
+            }
+            if (dbo is GroupDboObject)
+            {
+                return new Group(dbo as GroupDboObject);
+            }
+            if (dbo is FlashcardDboObject)
+            {
+                return new Flashcard(dbo as FlashcardDboObject);
+            }
+            return null;
         }
     }
 }

@@ -9,8 +9,6 @@ namespace LanguageNotes.ViewModels
 {
 	public class BaseViewModel : INotifyPropertyChanged
 	{
-        internal readonly IFlashcardsRepo repo = new FlashcardsRepo();
-
         public BaseViewModel()
 		{
             

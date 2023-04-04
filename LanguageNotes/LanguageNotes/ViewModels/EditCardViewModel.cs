@@ -52,7 +52,7 @@ namespace LanguageNotes.ViewModels
 
         async void Save()
         {
-            await repo.SaveFlashcard(NoteCard);
+            FlashcardsDatabase.SaveNoteCard(NoteCard);
             await Application.Current.MainPage.Navigation.PopAsync();
         }
 

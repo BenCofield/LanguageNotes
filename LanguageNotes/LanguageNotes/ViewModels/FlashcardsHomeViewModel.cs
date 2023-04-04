@@ -46,9 +46,9 @@ namespace LanguageNotes.ViewModels
             
         }
 
-        internal async override void OnAppearing()
+        internal override void OnAppearing()
         {
-            Categories = await repo.LoadAllCategories();
+            Categories = FlashcardsDatabase.GetAllCategories();
         }
 
 		async void OpenCategoryPage(Category category)
@@ -69,8 +69,8 @@ namespace LanguageNotes.ViewModels
                 return;
 
             var newCat = new Category(result);
-            await repo.CreateNewCategory(newCat);
-            Categories = await repo.LoadAllCategories();
+            FlashcardsDatabase.CreateCategory(newCat);
+            Categories = FlashcardsDatabase.GetAllCategories();
         }
     }
 }
